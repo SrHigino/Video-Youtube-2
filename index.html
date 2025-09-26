@@ -3,40 +3,78 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Responsivo</title>
+  <title>Vídeo VSL - Lazy Load Thumbnail</title>
   <style>
     body {
       margin: 0;
+      padding: 0;
+      background: #;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: #; /* Fundo branco limpo */
     }
-
     .video-container {
       position: relative;
       width: 100%;
       max-width: 800px;
-      aspect-ratio: 16/9;
+      cursor: pointer;
+      background: #000;
     }
-
-    iframe {
-      position: absolute;
+    .video-container img {
       width: 100%;
-      height: 100%;
-      border: none; /* Remove bordas do player */
+      height: auto;
+      display: block;
+    }
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .play-button::before {
+      content: '';
+      display: inline-block;
+      margin-left: 5px;
+      width: 0;
+      height: 0;
+      border-left: 25px solid #fff;
+      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
+    }
+    iframe {
+      width: 100%;
+      height: 450px;
+      border: 0;
     }
   </style>
 </head>
 <body>
-  <div class="video-container">
-    <iframe 
-      src="https://www.yout-ube.com/embed/M05dpNBFTE0?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1"
-      allow="autoplay; encrypted-media" 
-      allowfullscreen 
-      loading="lazy">
-    </iframe>
+  <div class="video-container" id="videoContainer">
+    <!-- Thumbnail padrão do YouTube -->
+    <img src="" alt="Thumbnail do vídeo">
+    <div class="play-button"></div>
   </div>
+
+  <script>
+    const container = document.getElementById('videoContainer');
+    container.addEventListener('click', () => {
+      container.innerHTML = `
+        <iframe 
+          src="https://www.youtube.com/embed/M05dpNBFTE0?autoplay=1&rel=0&showinfo=0&modestbranding=1&controls=0"
+          title="YouTube video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      `;
+    });
+  </script>
 </body>
 </html>
