@@ -3,45 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vídeo VSL Responsivo</title>
+  <title>VSL com Autoplay</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: #ffffff;
+      background: #000;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
+
     .video-container {
       position: relative;
       width: 100%;
-      max-width: 900px;
-      padding-bottom: 56.25%; /* 16:9 */
-      height: 0;
-      overflow: hidden;
+      max-width: 900px; /* largura máxima no desktop */
+      aspect-ratio: 16 / 9; /* mantém proporção responsiva */
       background: #000;
+      overflow: hidden;
+      border-radius: 8px;
     }
+
     .video-container iframe {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      border: 0;
+    }
+
+    .mute-btn {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .mute-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
     }
   </style>
 </head>
 <body>
   <div class="video-container">
     <iframe 
-      src="https://www.youtube.com/embed/_KjZRDHKIdo?autoplay=0&mute=1&rel=0&showinfo=0&modestbranding=1&controls=0"
+      id="myVideo"
+      src="https://www.youtube.com/embed/_KjZRDHKIdo?autoplay=1&mute=1&rel=0&showinfo=0&modestbranding=1&controls=0&enablejsapi=1"
       title="YouTube video"
-      loading="lazy"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      loading="lazy">
     </iframe>
+    <button class="mute-btn" id="muteToggle">🔊 Som</button>
   </div>
+
+  <script>
+    // Espera o carregamento da API do YouTube
+    let player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('myVideo');
+    }
+
+    // Carrega a API do YouTube
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+
+    // Botão de controle de som
+    document.getElementById('muteToggle').addEventListener('click', () => {
+      if (player.isMuted()) {
+        player.unMute();
+      } else {
+        player.mute();
+      }
+    });
+  </script>
 </body>
 </html>
