@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video com Autoplay</title>
+  <title>Video Responsivo</title>
   <style>
     body {
       margin: 0;
@@ -11,7 +11,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: #111;
+      background: #fff; /* Fundo branco limpo */
     }
 
     .video-container {
@@ -19,70 +19,24 @@
       width: 100%;
       max-width: 800px;
       aspect-ratio: 16/9;
-      background: #000;
     }
 
     iframe {
       position: absolute;
       width: 100%;
       height: 100%;
-      border: none;
-    }
-
-    /* Botão de som */
-    .mute-btn {
-      position: absolute;
-      bottom: 15px;
-      right: 15px;
-      background: rgba(0,0,0,0.6);
-      border: none;
-      color: #fff;
-      font-size: 24px;
-      padding: 8px 12px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .mute-btn:hover {
-      background: rgba(178, 137, 255, 0.8); /* Cor personalizada ao passar o mouse */
+      border: none; /* Remove bordas do player */
     }
   </style>
 </head>
 <body>
   <div class="video-container">
-    <iframe id="video" 
-      src="https://www.yout-ube.com/embed/M05dpNBFTE0?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&enablejsapi=1" 
+    <iframe 
+      src="https://www.youtube.com/embed/M05dpNBFTE0?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1"
       allow="autoplay; encrypted-media" 
       allowfullscreen 
       loading="lazy">
     </iframe>
-    <button class="mute-btn" id="muteBtn">🔇</button>
   </div>
-
-  <script>
-    // API do YouTube
-    let player;
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('video');
-    }
-
-    // Alterna mute/unmute
-    const muteBtn = document.getElementById('muteBtn');
-    muteBtn.addEventListener('click', () => {
-      if (player.isMuted()) {
-        player.unMute();
-        muteBtn.textContent = "🔊"; // Ícone ligado
-      } else {
-        player.mute();
-        muteBtn.textContent = "🔇"; // Ícone desligado
-      }
-    });
-
-    // Carrega API do YouTube
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.body.appendChild(tag);
-  </script>
 </body>
 </html>
