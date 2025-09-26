@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vídeo VSL - Lazy Load Thumbnail</title>
+  <title>VSL com Thumbnail</title>
   <style>
     body {
       margin: 0;
@@ -11,7 +11,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: #fff; /* Fundo branco limpo */
+      background: transparent; /* Fundo transparente */
     }
 
     .video-container {
@@ -19,32 +19,64 @@
       width: 100%;
       max-width: 800px;
       aspect-ratio: 16/9;
+      cursor: pointer;
+    }
+
+    .thumbnail {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: none;
+    }
+
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .play-button::before {
+      content: '';
+      display: inline-block;
+      margin-left: 5px;
+      border-style: solid;
+      border-width: 15px 0 15px 25px;
+      border-color: transparent transparent transparent white;
     }
 
     iframe {
       position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      border: none; /* Remove bordas do player */
+      border: none;
     }
   </style>
 </head>
 <body>
-  <div class="video-container" id="videoContainer">
-    <!-- Thumbnail padrão do YouTube 
-    <img src="" alt="Thumbnail do vídeo">-->
+  <div class="video-container" id="videoBox">
+    <!-- Thumbnail (pode trocar o link da imagem por sua capa personalizada) -->
+    <img class="thumbnail" src="https://img.youtube.com/vi/F74UOhw0o5U/maxresdefault.jpg" alt="Capa do vídeo">
     <div class="play-button"></div>
   </div>
 
   <script>
-    const container = document.getElementById('videoContainer');
-    container.addEventListener('click', () => {
-      container.innerHTML = `
+    document.getElementById("videoBox").addEventListener("click", function() {
+      this.innerHTML = `
         <iframe 
-          src="https://www.yout-ube.com/embed/M05dpNBFTE0?autoplay=1&rel=0&showinfo=0&modestbranding=1&controls=0"
-          title="YouTube video"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
+          src="https://www.youtube.com/embed/F74UOhw0o5U?autoplay=1&mute=0&controls=0&rel=0&modestbranding=1"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+          loading="lazy">
         </iframe>
       `;
     });
