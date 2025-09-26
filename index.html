@@ -3,88 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VSL com Autoplay</title>
+  <title>Video com Autoplay</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: #000;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      background: #111;
     }
 
     .video-container {
       position: relative;
       width: 100%;
-      max-width: 900px; /* largura máxima no desktop */
-      aspect-ratio: 16 / 9; /* mantém proporção responsiva */
+      max-width: 800px;
+      aspect-ratio: 16/9;
       background: #000;
-      overflow: hidden;
-      border-radius: 8px;
     }
 
-    .video-container iframe {
+    iframe {
       position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
+      border: none;
     }
 
+    /* Botão de som */
     .mute-btn {
       position: absolute;
       bottom: 15px;
       right: 15px;
-      background: rgba(0, 0, 0, 0.6);
-      color: #fff;
+      background: rgba(0,0,0,0.6);
       border: none;
-      padding: 8px 14px;
-      border-radius: 6px;
+      color: #fff;
+      font-size: 24px;
+      padding: 8px 12px;
+      border-radius: 50%;
       cursor: pointer;
-      font-size: 14px;
+      transition: background 0.3s;
     }
 
     .mute-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(178, 137, 255, 0.8); /* Cor personalizada ao passar o mouse */
     }
   </style>
 </head>
 <body>
   <div class="video-container">
-    <iframe 
-      id="myVideo"
-      src="https://www.youtube.com/embed/M05dpNBFTE0?autoplay=1&mute=1&rel=0&showinfo=0&modestbranding=1&controls=0&enablejsapi=1"
-      title="YouTube video"
-      frameborder="0"
-      allow="autoplay; encrypted-media"
-      allowfullscreen
+    <iframe id="video" 
+      src="https://www.youtube.com/embed/M05dpNBFTE0?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&enablejsapi=1" 
+      allow="autoplay; encrypted-media" 
+      allowfullscreen 
       loading="lazy">
     </iframe>
-    <button class="mute-btn" id="muteToggle">🔊 Som</button>
+    <button class="mute-btn" id="muteBtn">🔇</button>
   </div>
 
   <script>
-    // Espera o carregamento da API do YouTube
+    // API do YouTube
     let player;
     function onYouTubeIframeAPIReady() {
-      player = new YT.Player('myVideo');
+      player = new YT.Player('video');
     }
 
-    // Carrega a API do YouTube
+    // Alterna mute/unmute
+    const muteBtn = document.getElementById('muteBtn');
+    muteBtn.addEventListener('click', () => {
+      if (player.isMuted()) {
+        player.unMute();
+        muteBtn.textContent = "🔊"; // Ícone ligado
+      } else {
+        player.mute();
+        muteBtn.textContent = "🔇"; // Ícone desligado
+      }
+    });
+
+    // Carrega API do YouTube
     const tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     document.body.appendChild(tag);
-
-    // Botão de controle de som
-    document.getElementById('muteToggle').addEventListener('click', () => {
-      if (player.isMuted()) {
-        player.unMute();
-      } else {
-        player.mute();
-      }
-    });
   </script>
 </body>
 </html>
