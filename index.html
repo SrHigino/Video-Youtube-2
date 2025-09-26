@@ -90,7 +90,26 @@
       allow="autoplay; encrypted-media"
       allowfullscreen
       loading="lazy">
-    </iframe
+    </iframe>
+
+    <!-- Overlay com capa e botão de play -->
+    <div class="overlay" id="overlay">
+      
+      <div class="play-button"></div>
+    </div> 
+  </div> 
+
+  <script>
+    const overlay = document.getElementById("overlay");
+    const iframe = document.getElementById("videoFrame");
+
+    overlay.addEventListener("click", () => {
+      // Remove overlay (capa + botão)
+      overlay.classList.add("hidden");
+
+      // Usa a API do YouTube para dar play imediatamente
+      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    });
   </script>
 </body>
 </html>
