@@ -3,112 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VSL com Capa</title>
+  <title>VSL com Thumbnail</title>
   <style>
     body {
       margin: 0;
+      padding: 0;
+      background: transparent; /* fundo transparente */
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: transparent; /* fundo transparente */
     }
-
     .video-container {
       position: relative;
       width: 100%;
-      max-width: 800px;
-      aspect-ratio: 16/9;
+      max-width: 800px; /* largura máxima */
+      aspect-ratio: 16/9; /* mantém proporção responsiva */
+      background: transparent;
       overflow: hidden;
     }
-
-    iframe {
+    .thumbnail {
       position: absolute;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
       top: 0;
       left: 0;
+      object-fit: cover;
+    }
+    iframe {
       width: 100%;
       height: 100%;
       border: none;
-    }
-
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: opacity 0.3s ease;
-    }
-
-    .overlay img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-
-    .play-button {
-      width: 80px;
-      height: 80px;
-      background: rgba(0,0,0,0.6);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2;
-    }
-
-    .play-button::before {
-      content: '';
-      display: inline-block;
-      margin-left: 5px;
-      border-style: solid;
-      border-width: 15px 0 15px 25px;
-      border-color: transparent transparent transparent white;
-    }
-
-    .overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
+      display: none; /* começa escondido */
     }
   </style>
 </head>
 <body>
   <div class="video-container">
-    <!-- Vídeo já carregado em background, só esperando autoplay -->
-    <iframe 
-      id="videoFrame"
-      src="https://www.youtube.com/embed/M05dpNBFTE0?enablejsapi=1&mute=0&controls=0&rel=0&modestbranding=1"
-      allow="autoplay; encrypted-media"
-      allowfullscreen
-      loading="lazy">
-    </iframe>
+    <!-- Imagem de capa -->
+    <img src="https://img.youtube.com/vi/M05dpNBFTE0/maxresdefault.jpg" 
+         alt="Capa do Vídeo" 
+         class="thumbnail" 
+         id="thumbnail">
 
-    <!-- Overlay com capa e botão de play -->
-    <div class="overlay" id="overlay">
-      
-      <div class="play-button"></div>
-    </div> 
-  </div> 
+    <!-- Player do YouTube -->
+    <iframe id="youtubePlayer"
+      src="https://www.youtube.com/embed/M05dpNBFTE0?rel=0&modestbranding=1&controls=1&showinfo=0&fs=0"
+      title="YouTube video"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      loading="lazy"
+      allowfullscreen>
+    </iframe>
+  </div>
 
   <script>
-    const overlay = document.getElementById("overlay");
-    const iframe = document.getElementById("videoFrame");
+    const thumbnail = document.getElementById("thumbnail");
+    const player = document.getElementById("youtubePlayer");
 
-    overlay.addEventListener("click", () => {
-      // Remove overlay (capa + botão)
-      overlay.classList.add("hidden");
-
-      // Usa a API do YouTube para dar play imediatamente
-      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    thumbnail.addEventListener("click", function () {
+      // Substitui a imagem pelo vídeo
+      thumbnail.style.display = "none";
+      player.style.display = "block";
+      // Adiciona autoplay no momento que o usuário clica
+      player.src += "&autoplay=1";
     });
   </script>
 </body>
